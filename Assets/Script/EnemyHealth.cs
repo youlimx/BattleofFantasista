@@ -41,7 +41,7 @@ public class EnemyHealth : MonoBehaviour
 
             trans = 1;
             // hpSlider.value = enemyHP;
-            if (enemyHP < 0)
+            if (enemyHP <= 0)
             {
                 audioSource.PlayOneShot(breakSound);
                 //Instantiate(explosion, this.transform.position, Quaternion.identity);
