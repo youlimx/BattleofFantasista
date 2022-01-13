@@ -12,13 +12,15 @@ public class PlayerScript : MonoBehaviour
     int currentHP;
     public Slider slider;
 
-    public GameObject beam;
+    [SerializeField]
+    GameObject beam;
 
     //UDPServer udp;
+    [SerializeField]
+    float speed = 10.0f;
 
-    public float speed = 10.0f;
-
-    public AudioClip damageSound;
+    [SerializeField]
+    AudioClip damageSound;
     AudioSource audioSource;
 
     void Start()

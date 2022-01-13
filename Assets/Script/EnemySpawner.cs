@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemy;
-    float timer;
+    [SerializeField]
+    GameObject enemy;
+
+    private const int SpawnInterval = 1.0f;
+    private float _spawnTimer = 0.0f;
+    private float _spawmRandomMin = -25.0f;
+    private float _spawnRandomMax = 25.0f;
 
     void Update()
     {
 
-        timer += Time.deltaTime;
+        _spawnTimer += Time.deltaTime;
 
-        if (timer > 1)
+        if (_spawnTimer >= SpawnInterval)
         {
-            Instantiate(enemy, this.transform.position + this.transform.right * Random.Range(-25.0f, 25.0f), this.transform.rotation);
-            timer = 0;
+            Instantiate(enemy, this.transform.position + this.transform.right * Random.Range(_spawnRandomMin, _spawnRandomMax), this.transform.rotation);
+            _spawnTimer = 0.0f;
         }
 
     }

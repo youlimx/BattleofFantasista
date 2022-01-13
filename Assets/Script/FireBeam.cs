@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class FireBeam : MonoBehaviour
 {
-    public GameObject beamPrefab;
-    public float beamSpeed;
+    [SerializeField]
+    GameObject beamPrefab;
+
+    [SerializeField]
+    float beamSpeed;
+
     bool onSpace = false;
     // Start is called before the first frame update
     void Start()
