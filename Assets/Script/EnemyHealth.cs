@@ -5,19 +5,13 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField]
-    int enemyHP;
-
-    [SerializeField]
-    Slider hpSlider;
-
-    [SerializeField]
-    Animator anim;
+    [SerializeField] int enemyHP;
+    [SerializeField] Slider hpSlider;
+    [SerializeField] Animator anim;
     
     int trans=0;
 
-    [SerializeField]
-    AudioClip breakSound;
+    [SerializeField]AudioClip breakSound;
     AudioSource audioSource;
 
    // public GameObject explosion;

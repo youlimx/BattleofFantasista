@@ -7,12 +7,10 @@ public class RightArmScript : MonoBehaviour
     GameObject GameManager;
     GameManager script;
 
-    [SerializeField]
-    AudioClip punchSound;
+    [SerializeField] AudioClip punchSound;
     AudioSource audioSource;
 
-    [SerializeField]
-    GameObject spark;
+    [SerializeField] GameObject spark;
 
     void Start()
     {

@@ -7,8 +7,7 @@ public class GameManager : MonoBehaviour
 {
     int count;
 
-    [SerializeField]
-    Text scoreText;
+    [SerializeField] Text scoreText;
 
     void Update()
     {
