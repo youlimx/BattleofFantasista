@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class TimerScript : MonoBehaviour
 {
-    float countTime = 30;
+    private float _countTime = 30;
 
     void Update()
     {
-        countTime -= Time.deltaTime; //スタートしてからの秒数を格納
-        GetComponent<Text>().text = countTime.ToString("F2"); //小数2桁にして表示
+        _countTime -= Time.deltaTime; //スタートしてからの秒数を格納
+        GetComponent<Text>().text = _countTime.ToString("F2"); //小数2桁にして表示
 
-        if (countTime < 1)
+        if (_countTime < 1)
         {
             SceneManager.LoadScene("ClearScene");
         }

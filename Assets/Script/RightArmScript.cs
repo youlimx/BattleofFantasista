@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class RightArmScript : MonoBehaviour
 {
-    GameObject GameManager;
-    GameManager script;
+    private GameObject _gameManager;
+    GameManager _script;
 
-    [SerializeField] AudioClip punchSound;
-    AudioSource audioSource;
+    [SerializeField] AudioClip _punchSound;
+    private AudioSource _audioSource;
 
-    [SerializeField] GameObject spark;
+    [SerializeField] GameObject _spark;
 
     void Start()
     {
-        GameManager = GameObject.Find("GameManager");
-        script = GameManager.GetComponent<GameManager>();
-        audioSource = GetComponent<AudioSource>();
+        _gameManager = GameObject.Find("GameManager");
+        _script = _gameManager.GetComponent<GameManager>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -28,10 +28,10 @@ public class RightArmScript : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            audioSource.PlayOneShot(punchSound);
+            _audioSource.PlayOneShot(_punchSound);
             StartCoroutine(AttackVibrate(duration: 0.1f, controller: OVRInput.Controller.RTouch));
-            script.Score();
-            Instantiate(spark, this.transform.position, Quaternion.identity);
+            _script.Score();
+            Instantiate(_spark, this.transform.position, Quaternion.identity);
 
         }
     }

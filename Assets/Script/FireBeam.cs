@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class FireBeam : MonoBehaviour
 {
-    [SerializeField] GameObject beamPrefab;
+    [SerializeField] GameObject _beamPrefab;
 
-    [SerializeField] float beamSpeed;
+    [SerializeField] float _beamSpeed;
 
-    bool onSpace = false;
+    private bool _onSpace = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,16 +18,16 @@ public class FireBeam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && !onSpace)
+        if (Input.GetButtonDown("Jump") && ! _onSpace)
         {
             Debug.Log("onSpace");
-            onSpace = true;
+            _onSpace = true;
 
-            GameObject beam = Instantiate(beamPrefab, transform.position, Quaternion.identity);
+            GameObject beam = Instantiate(_beamPrefab, transform.position, Quaternion.identity);
 
             Rigidbody beamRb = beam.GetComponent<Rigidbody>();
 
-            beamRb.AddForce(transform.forward * beamSpeed);
+            beamRb.AddForce(transform.forward * _beamSpeed);
             Destroy(beam, 2.0f);
         }
     }

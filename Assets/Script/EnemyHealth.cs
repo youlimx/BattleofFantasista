@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] int enemyHP;
-    [SerializeField] Slider hpSlider;
-    [SerializeField] Animator anim;
+    [SerializeField] int _enemyHP;
+    [SerializeField] Slider _hpSlider;
+    [SerializeField] Animator _anim;
     
     int trans=0;
 
-    [SerializeField]AudioClip breakSound;
-    AudioSource audioSource;
+    [SerializeField] AudioClip _breakSound;
+    AudioSource _audioSource;
 
    // public GameObject explosion;
 
@@ -20,8 +20,8 @@ public class EnemyHealth : MonoBehaviour
     {
         // hpSlider.maxValue = enemyHP;
         // hpSlider.value = enemyHP;
-        anim = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+        _anim = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -36,15 +36,15 @@ public class EnemyHealth : MonoBehaviour
         if (col.gameObject.tag == "Player")
         {
             Debug.Log(col.gameObject.name);
-            anim.Play("Damage", -1, 0);
-            enemyHP -= 1;
-            Debug.Log("hit : " + enemyHP);
+            _anim.Play("Damage", -1, 0);
+            _enemyHP -= 1;
+            Debug.Log("hit : " + _enemyHP);
 
             trans = 1;
             // hpSlider.value = enemyHP;
-            if (enemyHP <= 0)
+            if (_enemyHP <= 0)
             {
-                audioSource.PlayOneShot(breakSound);
+                _audioSource.PlayOneShot(_breakSound);
                 //Instantiate(explosion, this.transform.position, Quaternion.identity);
                 Destroy(transform.root.gameObject, 1.0f);
             }

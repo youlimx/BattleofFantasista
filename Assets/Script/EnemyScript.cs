@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyScript : MonoBehaviour
 {
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject _player;
 
-    float speed = 8.0f;
+    float _speed = 8.0f;
 
     void Start()
     {

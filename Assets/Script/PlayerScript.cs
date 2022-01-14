@@ -8,32 +8,32 @@ using UnityEngine.SceneManagement;
 public class PlayerScript : MonoBehaviour
 {
 
-    int maxHP = 10;
-    int currentHP;
+    private int _maxHP = 10;
+    private int _currentHP;
     public Slider slider;
 
-    [SerializeField] GameObject beam;
+    [SerializeField] GameObject _beam;
 
     //UDPServer udp;
-    [SerializeField] float speed = 10.0f;
+    [SerializeField] float _speed = 10.0f;
 
-    [SerializeField] AudioClip damageSound;
-    AudioSource audioSource;
+    [SerializeField] AudioClip _damageSound;
+    private AudioSource _audioSource;
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
 
         //udp = GameObject.Find("Ninja").GetComponent<UDPServer>();
 
         slider.value = 1;
-        currentHP = maxHP;
+        _currentHP = _maxHP;
 
     }
 
     public void Button()
     {
-        Instantiate(beam, (this.transform.position + transform.up * 0.5f), this.transform.rotation);
+        Instantiate(_beam, (this.transform.position + transform.up * 0.5f), this.transform.rotation);
     }
 
     /*
@@ -54,20 +54,20 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKey("up"))
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * _speed * Time.deltaTime;
         }
         if (Input.GetKey("down"))
         {
-            transform.position -= transform.forward * speed * Time.deltaTime;
+            transform.position -= transform.forward * _speed * Time.deltaTime;
         }
         
         if (Input.GetKey("right"))
         {
-            transform.position += transform.right * speed * Time.deltaTime;
+            transform.position += transform.right * _speed * Time.deltaTime;
         }
         if (Input.GetKey("left"))
         {
-            transform.position -= transform.right * speed * Time.deltaTime;
+            transform.position -= transform.right * _speed * Time.deltaTime;
         }
         
 
@@ -87,16 +87,16 @@ public class PlayerScript : MonoBehaviour
         if (collider.gameObject.tag == "Enemy")
         {
             StartCoroutine(AttackVibrate(duration: 0.3f, controller: OVRInput.Controller.RTouch));
-            audioSource.PlayOneShot(damageSound);
+            _audioSource.PlayOneShot(_damageSound);
             int damage = 1;
 
-            currentHP = currentHP - damage;
+            _currentHP = _currentHP - damage;
 
-            slider.value = (float)currentHP / (float)maxHP;
+            slider.value = (float)_currentHP / (float)_maxHP;
 
 
 
-            if (currentHP == 0)
+            if (_currentHP == 0)
             {
                // SceneManager.LoadScene("GameOver");
             }
