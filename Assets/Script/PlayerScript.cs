@@ -7,18 +7,19 @@ using UnityEngine.SceneManagement;
 
 public class PlayerScript : MonoBehaviour
 {
-
-    private int _maxHP = 10;
-    private int _currentHP;
     public Slider slider;
 
-    [SerializeField] GameObject _beam;
+    [SerializeField] private GameObject _beam;
+    [SerializeField] private float _speed = 10.0f;
+    [SerializeField] private AudioClip _damageSound;
 
-    //UDPServer udp;
-    [SerializeField] float _speed = 10.0f;
+    //パンチ時のダメージの定数
+    private const int PunchDamage = 1;
 
-    [SerializeField] AudioClip _damageSound;
     private AudioSource _audioSource;
+    private int _maxHP = 10;
+    private int _currentHP;
+    //private UDPServer udp;
 
     void Start()
     {
@@ -70,7 +71,6 @@ public class PlayerScript : MonoBehaviour
             transform.position -= transform.right * _speed * Time.deltaTime;
         }
         
-
         transform.position += (Vector3)moveDirection * 0.5f * Time.deltaTime;
     }
 
@@ -81,28 +81,30 @@ public class PlayerScript : MonoBehaviour
         moveDirection = input.Get<Vector2>();
     }
 
-    //if (Input.GetKey("left"))
+
     public void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Enemy")
         {
             StartCoroutine(AttackVibrate(duration: 0.3f, controller: OVRInput.Controller.RTouch));
             _audioSource.PlayOneShot(_damageSound);
-            int damage = 1;
 
-            _currentHP = _currentHP - damage;
-
-            slider.value = (float)_currentHP / (float)_maxHP;
+            Damage();
 
 
-
+            //シーン遷移
             if (_currentHP == 0)
             {
-               // SceneManager.LoadScene("GameOver");
+                // SceneManager.LoadScene("GameOver");
             }
-
         }
+    }
 
+    void Damage()
+    {
+        _currentHP = _currentHP - PunchDamage;
+
+        slider.value = (float)_currentHP / (float)_maxHP;
     }
 
     public static IEnumerator AttackVibrate(float duration = 0.1f, float frequency = 1.0f, float amplitude = 1.0f, OVRInput.Controller controller = OVRInput.Controller.Active)

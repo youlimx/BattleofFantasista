@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class RightArmScript : MonoBehaviour
 {
+    [SerializeField] private AudioClip _punchSound;
+    [SerializeField] private GameObject _spark;
+
     private GameObject _gameManager;
-    GameManager _script;
-
-    [SerializeField] AudioClip _punchSound;
+    private GameManager _script;
     private AudioSource _audioSource;
-
-    [SerializeField] GameObject _spark;
 
     void Start()
     {

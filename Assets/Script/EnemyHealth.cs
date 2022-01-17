@@ -5,16 +5,15 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] int _enemyHP;
-    [SerializeField] Slider _hpSlider;
-    [SerializeField] Animator _anim;
-    
-    int trans=0;
+    // public GameObject explosion;
 
-    [SerializeField] AudioClip _breakSound;
-    AudioSource _audioSource;
+    [SerializeField] private int _enemyHP;
+    [SerializeField] private Slider _hpSlider;
+    [SerializeField] private Animator _anim;
+    [SerializeField] private AudioClip _breakSound;
 
-   // public GameObject explosion;
+    private AudioSource _audioSource;
+    private int trans;
 
     void Start()
     {
@@ -32,7 +31,6 @@ public class EnemyHealth : MonoBehaviour
     //private void OnCollisionStay(Collision col)
     private void OnCollisionEnter(Collision col)
     {
-        
         if (col.gameObject.tag == "Player")
         {
             Debug.Log(col.gameObject.name);
@@ -48,8 +46,6 @@ public class EnemyHealth : MonoBehaviour
                 //Instantiate(explosion, this.transform.position, Quaternion.identity);
                 Destroy(transform.root.gameObject, 1.0f);
             }
-
         }
     }
-
 }

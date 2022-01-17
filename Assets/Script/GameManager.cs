@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    int count;
-
     [SerializeField] Text scoreText;
+
+    private int count;
 
     void Update()
     {
