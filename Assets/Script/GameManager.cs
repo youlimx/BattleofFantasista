@@ -5,18 +5,20 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] Text scoreText;
-
-    private int count;
+    [SerializeField] Text _scoreText;    //スコア用のテキスト
+ 
+    private int score;                  //スコアをカウントする用の変数
 
     void Update()
     {
-        PlayerPrefs.SetInt("score", count);
-        scoreText.text = count.ToString("f0");
+        PlayerPrefs.SetInt("score", score);
+        _scoreText.text = score.ToString("f0");
     }
 
-    public void Score()
+    //スコアを足す関数
+    public void AddScore(int value)
     {
-        count += 10;
+        score += value;
     }
+
 }

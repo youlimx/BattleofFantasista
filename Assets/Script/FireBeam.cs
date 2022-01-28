@@ -4,30 +4,34 @@ using UnityEngine;
 
 public class FireBeam : MonoBehaviour
 {
-    [SerializeField] private GameObject _beamPrefab;
-    [SerializeField] private float _beamSpeed;
+    [SerializeField] private GameObject _beamPrefab;  //ビームのprefab
+    [SerializeField] private float _beamSpeed;       //ビームの速度
 
-    private bool _onSpace = false;
-    // Start is called before the first frame update
-    void Start()
-    {
+    private bool _pushSpace = false;  //スペースキーを押したかの判定
+    private float _beamTime=2.0f; //ビーム用タイマー
 
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && ! _onSpace)
+        if (Input.GetButtonDown("Jump") && ! _pushSpace)
         {
-            Debug.Log("onSpace");
-            _onSpace = true;
-
+            _pushSpace = true;
             GameObject beam = Instantiate(_beamPrefab, transform.position, Quaternion.identity);
-
             Rigidbody beamRb = beam.GetComponent<Rigidbody>();
-
             beamRb.AddForce(transform.forward * _beamSpeed);
-            Destroy(beam, 2.0f);
+            Destroy(beam,2.0f);
+        }
+
+        if (_pushSpace == true)
+        {
+            _beamTime -= Time.deltaTime;
+        }
+
+        if (_beamTime < 0)
+        {
+            _pushSpace = false;
+            _beamTime = 2.0f;
         }
     }
 }

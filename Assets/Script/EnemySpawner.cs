@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    //Enemyのゲームオブジェクト
     [SerializeField] private GameObject _enemy;
 
     //Enemyの発生する間隔の定数
@@ -18,10 +19,11 @@ public class EnemySpawner : MonoBehaviour
 
     void Update()
     {
-        Spawner();
+        Spawn();
     }
 
-    void Spawner()
+    //敵を生成する関数
+    void Spawn()
     {
         _spawnTimer += Time.deltaTime;
 

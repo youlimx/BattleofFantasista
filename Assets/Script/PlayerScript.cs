@@ -4,34 +4,35 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerScript : MonoBehaviour
 {
-    public Slider slider;
+    public Slider slider;       //プレイヤーのHPスライダー
 
-    [SerializeField] private GameObject _beam;
-    [SerializeField] private float _speed = 10.0f;
-    [SerializeField] private AudioClip _damageSound;
+    [SerializeField] private GameObject _beam;          //ビーム
+    [SerializeField] private float _speed = 10.0f;      //移動の速さ
+    [SerializeField] private AudioClip _damageSound;    //ダメージを受けた時の音
+   
+    private const int PunchDamage = 1;                  //パンチ敵に与えるダメージ
 
-    //パンチ時のダメージの定数
-    private const int PunchDamage = 1;
-
-    private AudioSource _audioSource;
-    private int _maxHP = 10;
-    private int _currentHP;
+    private AudioSource _damageAudioSource;             //プレイヤーがダメージを受けた時の音源
+    private int _maxHP = 10;                            //最大HP
+    private int _currentHP;                             //現在のHP
     //private UDPServer udp;
 
     void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _damageAudioSource = GetComponent<AudioSource>();
 
-        //udp = GameObject.Find("Ninja").GetComponent<UDPServer>();
+        //udp = GameObject.Find("Player").GetComponent<UDPServer>();
 
         slider.value = 1;
         _currentHP = _maxHP;
 
     }
 
+    //ボタンを押した時に呼び出す関数
     public void Button()
     {
         Instantiate(_beam, (this.transform.position + transform.up * 0.5f), this.transform.rotation);
@@ -76,6 +77,7 @@ public class PlayerScript : MonoBehaviour
 
     Vector2 moveDirection = Vector2.zero;
 
+    //プレイヤーを移動させる関数
    void OnMove(InputValue input)
     {
         moveDirection = input.Get<Vector2>();
@@ -86,10 +88,10 @@ public class PlayerScript : MonoBehaviour
     {
         if (collider.gameObject.tag == "Enemy")
         {
-            StartCoroutine(AttackVibrate(duration: 0.3f, controller: OVRInput.Controller.RTouch));
-            _audioSource.PlayOneShot(_damageSound);
+            StartCoroutine(AttackVibrate(0.1f, 1.0f, 1.0f, controller: OVRInput.Controller.RTouch)) ;
+            _damageAudioSource.PlayOneShot(_damageSound);
 
-            Damage();
+            RecieveDamage();
 
 
             //シーン遷移
@@ -100,14 +102,16 @@ public class PlayerScript : MonoBehaviour
         }
     }
 
-    void Damage()
+    //プレイヤーがダメージを受けた時の関数
+    void RecieveDamage()
     {
         _currentHP = _currentHP - PunchDamage;
 
         slider.value = (float)_currentHP / (float)_maxHP;
     }
 
-    public static IEnumerator AttackVibrate(float duration = 0.1f, float frequency = 1.0f, float amplitude = 1.0f, OVRInput.Controller controller = OVRInput.Controller.Active)
+
+    public static IEnumerator AttackVibrate(float duration, float frequency, float amplitude, OVRInput.Controller controller = OVRInput.Controller.Active)
     {
         //コントローラーを振動させる
         OVRInput.SetControllerVibration(frequency, amplitude, controller);
@@ -119,4 +123,5 @@ public class PlayerScript : MonoBehaviour
         OVRInput.SetControllerVibration(0, 0, controller);
 
     }
+
 }

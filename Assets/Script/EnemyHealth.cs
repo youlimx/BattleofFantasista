@@ -7,12 +7,12 @@ public class EnemyHealth : MonoBehaviour
 {
     // public GameObject explosion;
 
-    [SerializeField] private int _enemyHP;
-    [SerializeField] private Slider _hpSlider;
-    [SerializeField] private Animator _anim;
-    [SerializeField] private AudioClip _breakSound;
+    [SerializeField] private int _enemyHP;              //エネミーのHP
+    [SerializeField] private Slider _hpSlider;          //エネミーのHPスライダー        
+    [SerializeField] private Animator _anim;            //アニメータ
+    [SerializeField] private AudioClip _breakSound;     //敵が倒された時の音
 
-    private AudioSource _audioSource;
+    private AudioSource _breakAudioSource;              //敵が倒された時の音の音源
     private int trans;
 
     void Start()
@@ -20,15 +20,9 @@ public class EnemyHealth : MonoBehaviour
         // hpSlider.maxValue = enemyHP;
         // hpSlider.value = enemyHP;
         _anim = GetComponent<Animator>();
-        _audioSource = GetComponent<AudioSource>();
+        _breakAudioSource = GetComponent<AudioSource>();
     }
 
-    void Update()
-    {
-
-    }
-
-    //private void OnCollisionStay(Collision col)
     private void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag == "Player")
@@ -42,7 +36,7 @@ public class EnemyHealth : MonoBehaviour
             // hpSlider.value = enemyHP;
             if (_enemyHP <= 0)
             {
-                _audioSource.PlayOneShot(_breakSound);
+                _breakAudioSource.PlayOneShot(_breakSound);
                 //Instantiate(explosion, this.transform.position, Quaternion.identity);
                 Destroy(transform.root.gameObject, 1.0f);
             }

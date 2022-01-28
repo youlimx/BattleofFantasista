@@ -2,34 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RightArmScript : MonoBehaviour
 {
-    [SerializeField] private AudioClip _punchSound;
-    [SerializeField] private GameObject _spark;
+    [SerializeField] private GameManager _gameManager;  //ゲームマネージャー
+    [SerializeField] private AudioClip _punchSound;     //パンチ音
+    [SerializeField] private GameObject _spark;         //パンチしたときに出る火花のエフェクト
 
-    private GameObject _gameManager;
-    private GameManager _script;
-    private AudioSource _audioSource;
+    private AudioSource _punchAudioSource;              //パンチの音の音源
 
     void Start()
     {
-        _gameManager = GameObject.Find("GameManager");
-        _script = _gameManager.GetComponent<GameManager>();
-        _audioSource = GetComponent<AudioSource>();
-    }
-
-    void Update()
-    {
-
+        _gameManager = GetComponent<GameManager>();
+        _punchAudioSource = GetComponent<AudioSource>();
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            _audioSource.PlayOneShot(_punchSound);
+            _punchAudioSource.PlayOneShot(_punchSound);
             StartCoroutine(AttackVibrate(duration: 0.1f, controller: OVRInput.Controller.RTouch));
-            _script.Score();
+            _gameManager.AddScore(10);
             Instantiate(_spark, this.transform.position, Quaternion.identity);
 
         }
