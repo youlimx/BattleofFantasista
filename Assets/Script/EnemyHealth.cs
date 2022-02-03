@@ -17,6 +17,7 @@ public class EnemyHealth : MonoBehaviour
 
     void Start()
     {
+        //Œã‚ÅŽg‚¢‚Ü‚·
         // hpSlider.maxValue = enemyHP;
         // hpSlider.value = enemyHP;
         _anim = GetComponent<Animator>();

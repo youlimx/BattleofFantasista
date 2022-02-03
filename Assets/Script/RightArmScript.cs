@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RightArmScript : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;  //ゲームマネージャー
+    [SerializeField] GameManager _gameManager;  //ゲームマネージャー
     [SerializeField] private AudioClip _punchSound;     //パンチ音
     [SerializeField] private GameObject _spark;         //パンチしたときに出る火花のエフェクト
 
@@ -22,24 +22,12 @@ public class RightArmScript : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             _punchAudioSource.PlayOneShot(_punchSound);
-            StartCoroutine(AttackVibrate(duration: 0.1f, controller: OVRInput.Controller.RTouch));
+            _gameManager.Vibrate();
+            Debug.Log("Vibrate");
             _gameManager.AddScore(10);
             Instantiate(_spark, this.transform.position, Quaternion.identity);
 
         }
-    }
-
-    public static IEnumerator AttackVibrate(float duration = 0.1f, float frequency = 1.0f, float amplitude = 1.0f, OVRInput.Controller controller = OVRInput.Controller.Active)
-    {
-        //コントローラーを振動させる
-        OVRInput.SetControllerVibration(frequency, amplitude, controller);
-
-        //指定された時間待つ
-        yield return new WaitForSeconds(duration);
-
-        //コントローラーの振動を止める
-        OVRInput.SetControllerVibration(0, 0, controller);
-
     }
 
 }

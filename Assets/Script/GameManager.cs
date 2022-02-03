@@ -20,5 +20,22 @@ public class GameManager : MonoBehaviour
     {
         score += value;
     }
+    public void Vibrate()
+    {
+        StartCoroutine(AttackVibrate(0.1f, 1.0f, 1.0f, controller: OVRInput.Controller.RTouch));
+    }
+
+    public static IEnumerator AttackVibrate(float duration, float frequency, float amplitude, OVRInput.Controller controller = OVRInput.Controller.Active)
+    {
+        //コントローラーを振動させる
+        OVRInput.SetControllerVibration(frequency, amplitude, controller);
+
+        //指定された時間待つ
+        yield return new WaitForSeconds(duration);
+
+        //コントローラーの振動を止める
+        OVRInput.SetControllerVibration(0, 0, controller);
+
+    }
 
 }

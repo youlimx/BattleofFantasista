@@ -15,6 +15,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private AudioClip _damageSound;    //ダメージを受けた時の音
    
     private const int PunchDamage = 1;                  //パンチ敵に与えるダメージ
+    private GameManager _gameManager;
 
     private AudioSource _damageAudioSource;             //プレイヤーがダメージを受けた時の音源
     private int _maxHP = 10;                            //最大HP
@@ -23,6 +24,7 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
+        _gameManager = GetComponent<GameManager>();
         _damageAudioSource = GetComponent<AudioSource>();
 
         //udp = GameObject.Find("Player").GetComponent<UDPServer>();
@@ -88,7 +90,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (collider.gameObject.tag == "Enemy")
         {
-            StartCoroutine(AttackVibrate(0.1f, 1.0f, 1.0f, controller: OVRInput.Controller.RTouch)) ;
+            _gameManager.Vibrate();
             _damageAudioSource.PlayOneShot(_damageSound);
 
             RecieveDamage();
@@ -111,17 +113,6 @@ public class PlayerScript : MonoBehaviour
     }
 
 
-    public static IEnumerator AttackVibrate(float duration, float frequency, float amplitude, OVRInput.Controller controller = OVRInput.Controller.Active)
-    {
-        //コントローラーを振動させる
-        OVRInput.SetControllerVibration(frequency, amplitude, controller);
-
-        //指定された時間待つ
-        yield return new WaitForSeconds(duration);
-
-        //コントローラーの振動を止める
-        OVRInput.SetControllerVibration(0, 0, controller);
-
-    }
+    
 
 }
