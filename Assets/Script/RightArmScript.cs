@@ -13,7 +13,6 @@ public class RightArmScript : MonoBehaviour
 
     void Start()
     {
-        _gameManager = GetComponent<GameManager>();
         _punchAudioSource = GetComponent<AudioSource>();
     }
 

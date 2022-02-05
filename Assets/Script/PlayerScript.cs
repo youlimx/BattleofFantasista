@@ -13,9 +13,11 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject _beam;          //ビーム
     [SerializeField] private float _speed = 10.0f;      //移動の速さ
     [SerializeField] private AudioClip _damageSound;    //ダメージを受けた時の音
-   
-    private const int PunchDamage = 1;                  //パンチ敵に与えるダメージ
+
     private GameManager _gameManager;
+
+    private const int PunchDamage = 1;                  //パンチ敵に与えるダメージ
+    
 
     private AudioSource _damageAudioSource;             //プレイヤーがダメージを受けた時の音源
     private int _maxHP = 10;                            //最大HP
@@ -24,7 +26,6 @@ public class PlayerScript : MonoBehaviour
 
     void Start()
     {
-        _gameManager = GetComponent<GameManager>();
         _damageAudioSource = GetComponent<AudioSource>();
 
         //udp = GameObject.Find("Player").GetComponent<UDPServer>();
