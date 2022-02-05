@@ -4,37 +4,41 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerScript : MonoBehaviour
 {
+    public Slider slider;       //プレイヤーのHPスライダー
 
-    int maxHP = 10;
-    int currentHP;
-    public Slider slider;
+    [SerializeField] private GameObject _beam;          //ビーム
+    [SerializeField] private float _speed = 10.0f;      //移動の速さ
+    [SerializeField] private AudioClip _damageSound;    //ダメージを受けた時の音
 
-    public GameObject beam;
+    private GameManager _gameManager;
 
-    //UDPServer udp;
+    private const int PunchDamage = 1;                  //パンチ敵に与えるダメージ
+    
 
-    public float speed = 10.0f;
-
-    public AudioClip damageSound;
-    AudioSource audioSource;
+    private AudioSource _damageAudioSource;             //プレイヤーがダメージを受けた時の音源
+    private int _maxHP = 10;                            //最大HP
+    private int _currentHP;                             //現在のHP
+    //private UDPServer udp;
 
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _damageAudioSource = GetComponent<AudioSource>();
 
-        //udp = GameObject.Find("Ninja").GetComponent<UDPServer>();
+        //udp = GameObject.Find("Player").GetComponent<UDPServer>();
 
         slider.value = 1;
-        currentHP = maxHP;
+        _currentHP = _maxHP;
 
     }
 
+    //ボタンを押した時に呼び出す関数
     public void Button()
     {
-        Instantiate(beam, (this.transform.position + transform.up * 0.5f), this.transform.rotation);
+        Instantiate(_beam, (this.transform.position + transform.up * 0.5f), this.transform.rotation);
     }
 
     /*
@@ -55,67 +59,61 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKey("up"))
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * _speed * Time.deltaTime;
         }
         if (Input.GetKey("down"))
         {
-            transform.position -= transform.forward * speed * Time.deltaTime;
+            transform.position -= transform.forward * _speed * Time.deltaTime;
         }
         
         if (Input.GetKey("right"))
         {
-            transform.position += transform.right * speed * Time.deltaTime;
+            transform.position += transform.right * _speed * Time.deltaTime;
         }
         if (Input.GetKey("left"))
         {
-            transform.position -= transform.right * speed * Time.deltaTime;
+            transform.position -= transform.right * _speed * Time.deltaTime;
         }
         
-
         transform.position += (Vector3)moveDirection * 0.5f * Time.deltaTime;
     }
 
     Vector2 moveDirection = Vector2.zero;
 
+    //プレイヤーを移動させる関数
    void OnMove(InputValue input)
     {
         moveDirection = input.Get<Vector2>();
     }
 
-    //if (Input.GetKey("left"))
+
     public void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Enemy")
         {
-            StartCoroutine(AttackVibrate(duration: 0.3f, controller: OVRInput.Controller.RTouch));
-            audioSource.PlayOneShot(damageSound);
-            int damage = 1;
+            _gameManager.Vibrate();
+            _damageAudioSource.PlayOneShot(_damageSound);
 
-            currentHP = currentHP - damage;
-
-            slider.value = (float)currentHP / (float)maxHP;
+            RecieveDamage();
 
 
-
-            if (currentHP == 0)
+            //シーン遷移
+            if (_currentHP == 0)
             {
-               // SceneManager.LoadScene("GameOver");
+                // SceneManager.LoadScene("GameOver");
             }
-
         }
-
     }
 
-    public static IEnumerator AttackVibrate(float duration = 0.1f, float frequency = 1.0f, float amplitude = 1.0f, OVRInput.Controller controller = OVRInput.Controller.Active)
+    //プレイヤーがダメージを受けた時の関数
+    void RecieveDamage()
     {
-        //コントローラーを振動させる
-        OVRInput.SetControllerVibration(frequency, amplitude, controller);
+        _currentHP = _currentHP - PunchDamage;
 
-        //指定された時間待つ
-        yield return new WaitForSeconds(duration);
-
-        //コントローラーの振動を止める
-        OVRInput.SetControllerVibration(0, 0, controller);
-
+        slider.value = (float)_currentHP / (float)_maxHP;
     }
+
+
+    
+
 }

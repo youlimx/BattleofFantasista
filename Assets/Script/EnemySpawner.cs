@@ -4,19 +4,33 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemy;
-    float timer;
+    //Enemyのゲームオブジェクト
+    [SerializeField] private GameObject _enemy;
+
+    //Enemyの発生する間隔の定数
+    private const float SpawnInterval = 1.0f;
+    //ランダムに発生する場所のx座標の最小値
+    private const float SpawmRandomMin = -25.0f;
+    //ランダムに発生する場所のx座標の最大値
+    private const float SpawnRandomMax = 25.0f;
+
+    //発生させるためのタイマーの初期値
+    private float _spawnTimer = 0.0f;
 
     void Update()
     {
+        Spawn();
+    }
 
-        timer += Time.deltaTime;
+    //敵を生成する関数
+    void Spawn()
+    {
+        _spawnTimer += Time.deltaTime;
 
-        if (timer > 1)
+        if (_spawnTimer >= SpawnInterval)
         {
-            Instantiate(enemy, this.transform.position + this.transform.right * Random.Range(-25.0f, 25.0f), this.transform.rotation);
-            timer = 0;
+            Instantiate(_enemy, this.transform.position + this.transform.right * Random.Range(SpawmRandomMin, SpawnRandomMax), this.transform.rotation);
+            _spawnTimer = 0.0f;
         }
-
     }
 }
