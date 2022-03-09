@@ -13,8 +13,7 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject _beam;          //ビーム
     [SerializeField] private float _speed = 10.0f;      //移動の速さ
     [SerializeField] private AudioClip _damageSound;    //ダメージを受けた時の音
-
-    private GameManager _gameManager;
+    [SerializeField] private GameManager _gameManager;  //ゲームマネージャー
 
     private const int PunchDamage = 1;                  //パンチ敵に与えるダメージ
     
@@ -95,7 +94,6 @@ public class PlayerScript : MonoBehaviour
             _damageAudioSource.PlayOneShot(_damageSound);
 
             RecieveDamage();
-
 
             //シーン遷移
             if (_currentHP == 0)

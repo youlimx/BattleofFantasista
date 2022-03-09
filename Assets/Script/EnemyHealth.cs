@@ -13,28 +13,23 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] private AudioClip _breakSound;     //“G‚ª“|‚³‚ê‚½Žž‚Ì‰¹
 
     private AudioSource _breakAudioSource;              //“G‚ª“|‚³‚ê‚½Žž‚Ì‰¹‚Ì‰¹Œ¹
-    private int trans;
 
     void Start()
     {
-        //Œã‚ÅŽg‚¢‚Ü‚·
-        // hpSlider.maxValue = enemyHP;
-        // hpSlider.value = enemyHP;
+        _hpSlider.maxValue = _enemyHP;
         _anim = GetComponent<Animator>();
         _breakAudioSource = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "Player")
+        if (col.gameObject.tag == "RightArm")
         {
             Debug.Log(col.gameObject.name);
             _anim.Play("Damage", -1, 0);
             _enemyHP -= 1;
             Debug.Log("hit : " + _enemyHP);
-
-            trans = 1;
-            // hpSlider.value = enemyHP;
+            _hpSlider.value = _enemyHP;
             if (_enemyHP <= 0)
             {
                 _breakAudioSource.PlayOneShot(_breakSound);
