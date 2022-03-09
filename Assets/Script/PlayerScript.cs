@@ -90,7 +90,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (collider.gameObject.tag == "Enemy")
         {
-            _gameManager.Vibrate();
+            _gameManager.PunchVibrate();
             _damageAudioSource.PlayOneShot(_damageSound);
 
             RecieveDamage();

@@ -4,34 +4,58 @@ using UnityEngine;
 
 public class FireBeam : MonoBehaviour
 {
-    [SerializeField] private GameObject _beamPrefab;  //ビームのprefab
-    [SerializeField] private float _beamSpeed;       //ビームの速度
+    [SerializeField] private GameManager _gameManager;  //ゲームマネージャー
+    [SerializeField] private GameObject _leftArm;       //左腕
+    [SerializeField] private GameObject _beamPrefab;    //ビームのprefab
+    [SerializeField] private float _beamSpeed;          //ビームの速度
+    [SerializeField] private GameObject _spark;         //ビームが当たっている時のエフェクト
 
-    private bool _pushSpace = false;  //スペースキーを押したかの判定
-    private float _beamTime=2.0f; //ビーム用タイマー
+    private bool _beamFire = false;   //スペースキーを押したかの判定
+    private bool _beamTimer = false;  //ビーム用タイマーが動いているかどうか
+    private float _beamTime=3.75f;     //ビーム用タイマー(実際の長さ+反動)
+    private GameObject _beam;         //ビームのGameObject
+    private ShakerScript _shaker;     //揺らすスクリプト
 
+    private void Start()
+    {
+        _gameManager = _gameManager.GetComponent<GameManager>();
+        _shaker = _leftArm.GetComponent<ShakerScript>();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        _gameManager.AddScore(10);
+        Instantiate(_spark, this.transform.position, Quaternion.identity);
+    }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && ! _pushSpace)
+        if (Input.GetButtonDown("Beam") && ! _beamFire)
         {
-            _pushSpace = true;
-            GameObject beam = Instantiate(_beamPrefab, transform.position, Quaternion.identity);
-            Rigidbody beamRb = beam.GetComponent<Rigidbody>();
-            beamRb.AddForce(transform.forward * _beamSpeed);
-            Destroy(beam,2.0f);
+            _beamFire = true;
+            _beamTimer = true;
+            _shaker.flag = true;
+            _beam = Instantiate(_beamPrefab, transform.position, Quaternion.identity);
+            _beam.transform.parent = transform;
+            _beam.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            _beam.transform.rotation = default;
+            Destroy(_beam,3.5f);
         }
 
-        if (_pushSpace == true)
+        if (_beamTimer == true)
         {
             _beamTime -= Time.deltaTime;
         }
-
-        if (_beamTime < 0)
+        if (_beamTime < 0.25f && _beamFire == true)
         {
-            _pushSpace = false;
-            _beamTime = 2.0f;
+            _beamFire = false;
+        }
+        if (_beamTime < 0 && _beamFire == false)
+        {
+            _shaker.flag = false;
+            _beamTimer = false;
+            _beamTime = 3.75f;
         }
     }
 }
