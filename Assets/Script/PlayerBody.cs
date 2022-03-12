@@ -19,7 +19,6 @@ public class PlayerBody : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("hit");
             int damage = 1;
 
             currentHP = currentHP - damage;

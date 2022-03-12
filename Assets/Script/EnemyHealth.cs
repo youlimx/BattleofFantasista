@@ -15,6 +15,7 @@ public class EnemyHealth : MonoBehaviour
 
     private AudioSource _breakAudioSource;              //“G‚ª“|‚³‚ê‚½‚Ì‰¹‚Ì‰¹Œ¹
     private int _beamCount = 19;                        //ƒr[ƒ€‚ğo‚µ‚Ä‚¢‚éŠÔ
+    private bool _defeat = false;                       //“G‚ª“|‚³‚ê‚½‚©‚Ç‚¤‚©B
 
     void Start()
     {
@@ -26,18 +27,18 @@ public class EnemyHealth : MonoBehaviour
 
     private void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag == "RightArm")
+        if (Input.GetKey(KeyCode.Return) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
         {
-            Debug.Log(col.gameObject.name);
-            _anim.Play("Damage", -1, 0);
-            _enemyHP -= 1;
-            Debug.Log("hit : " + _enemyHP);
-            _hpSlider.value = _enemyHP;
-            if (_enemyHP <= 0)
+            if (col.gameObject.tag == "RightArm")
             {
-                _breakAudioSource.PlayOneShot(_breakSound);
-                //Instantiate(explosion, this.transform.position, Quaternion.identity);
-                Destroy(transform.root.gameObject, 1.0f);
+                _anim.Play("Damage", -1, 0);
+                _enemyHP -= 1;
+                _hpSlider.value = _enemyHP;
+                if (_enemyHP <= 0 && _defeat == false)
+                {
+                    _defeat = true;
+                    EnemyDefeat();
+                }
             }
         }
     }
@@ -52,10 +53,8 @@ public class EnemyHealth : MonoBehaviour
             _beamCount++;
             if (_beamCount >= 20)
             {
-                Debug.Log(col.gameObject.name);
                 _anim.Play("Damage", -1, 0);
                 _enemyHP -= 1;
-                Debug.Log("EnemyHP: " + _enemyHP);
                 _hpSlider.value = _enemyHP;
                 _gameManager.BeamVibrate();
 
@@ -69,8 +68,25 @@ public class EnemyHealth : MonoBehaviour
                 }
 
                 _beamCount = 0;
-            }
+                if (_enemyHP <= 0 && _defeat == false)
+                {
+                    _defeat = true;
+                    EnemyDefeat();
+                }
 
             }
         }
     }
+
+    void EnemyDefeat()
+    {
+        _gameManager.result.text = "YOU WIN!";
+        Destroy(this.gameObject, 1.0f);
+
+        /*2‘Ì–Ú‚Ì“G‚ğo‚·‚Æ‚«‚Ég‚¤B
+        GameObject.Find("STAGE").SetActive(false);
+        RenderSettings.skybox = sky;
+        Instantiate(enemy2, new Vector3(0, 0, 0), Quaternion.identity);
+        */
+    }
+}

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Text _scoreText;    //スコア用のテキスト
+
+    public Text result;
  
     private int score;                  //スコアをカウントする用の変数
 
