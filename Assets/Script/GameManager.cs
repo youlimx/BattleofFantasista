@@ -20,9 +20,14 @@ public class GameManager : MonoBehaviour
     {
         score += value;
     }
-    public void Vibrate()
+    public void PunchVibrate()
     {
         StartCoroutine(AttackVibrate(0.1f, 1.0f, 1.0f, controller: OVRInput.Controller.RTouch));
+    }
+
+    public void BeamVibrate()
+    {
+        StartCoroutine(AttackVibrate(0.1f,1.0f,1.0f, controller:OVRInput.Controller.LTouch)) ;
     }
 
     public static IEnumerator AttackVibrate(float duration, float frequency, float amplitude, OVRInput.Controller controller = OVRInput.Controller.Active)
