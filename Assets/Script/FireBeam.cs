@@ -24,7 +24,6 @@ public class FireBeam : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        _gameManager.AddScore(10);
         Instantiate(_spark, this.transform.position, Quaternion.identity);
     }
 
