@@ -22,7 +22,6 @@ public class RightArmScript : MonoBehaviour
     void Update()
     {
          _rTrigger = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger); 
-        Debug.Log("Trigger:" + _rTrigger);
         if (Input.GetKey(KeyCode.Return) || OVRInput.Get(OVRInput.RawButton.RIndexTrigger))
         {
             _gripAnim.SetBool("blGrp", true);

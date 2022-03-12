@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using System;
 
 public class PlayerScript : MonoBehaviour
 {
     public Slider slider;       //プレイヤーのHPスライダー
+    public PlayerMove move;
 
     [SerializeField] private GameObject _beam;          //ビーム
-    [SerializeField] private float _speed = 10.0f;      //移動の速さ
     [SerializeField] private AudioClip _damageSound;    //ダメージを受けた時の音
     [SerializeField] private GameManager _gameManager;  //ゲームマネージャー
+    [SerializeField] private GameObject _player;
 
     private const int PunchDamage = 1;                  //パンチ敵に与えるダメージ
-    
 
     private AudioSource _damageAudioSource;             //プレイヤーがダメージを受けた時の音源
     private int _maxHP = 10;                            //最大HP
@@ -26,12 +24,17 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         _damageAudioSource = GetComponent<AudioSource>();
+        move = _player.GetComponent<PlayerMove>();
 
         //udp = GameObject.Find("Player").GetComponent<UDPServer>();
 
         slider.value = 1;
         _currentHP = _maxHP;
+    }
 
+    private void Update()
+    {
+        move.Move();
     }
 
     //ボタンを押した時に呼び出す関数
@@ -52,38 +55,6 @@ public class PlayerScript : MonoBehaviour
             Destroy(this.gameObject, 10.0f);
         }
     }*/
-
-    void Update()
-    {
-
-        if (Input.GetKey("up"))
-        {
-            transform.position += transform.forward * _speed * Time.deltaTime;
-        }
-        if (Input.GetKey("down"))
-        {
-            transform.position -= transform.forward * _speed * Time.deltaTime;
-        }
-        
-        if (Input.GetKey("right"))
-        {
-            transform.position += transform.right * _speed * Time.deltaTime;
-        }
-        if (Input.GetKey("left"))
-        {
-            transform.position -= transform.right * _speed * Time.deltaTime;
-        }
-        
-        transform.position += (Vector3)moveDirection * 0.5f * Time.deltaTime;
-    }
-
-    Vector2 moveDirection = Vector2.zero;
-
-    //プレイヤーを移動させる関数
-   void OnMove(InputValue input)
-    {
-        moveDirection = input.Get<Vector2>();
-    }
 
 
     public void OnTriggerEnter(Collider collider)
@@ -110,8 +81,5 @@ public class PlayerScript : MonoBehaviour
 
         slider.value = (float)_currentHP / (float)_maxHP;
     }
-
-
-    
 
 }
