@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] Text _scoreText;    //スコア用のテキスト
+
+    public Text result;
  
     private int score;                  //スコアをカウントする用の変数
 
@@ -20,9 +22,14 @@ public class GameManager : MonoBehaviour
     {
         score += value;
     }
-    public void Vibrate()
+    public void PunchVibrate()
     {
         StartCoroutine(AttackVibrate(0.1f, 1.0f, 1.0f, controller: OVRInput.Controller.RTouch));
+    }
+
+    public void BeamVibrate()
+    {
+        StartCoroutine(AttackVibrate(0.1f,1.0f,1.0f, controller:OVRInput.Controller.LTouch)) ;
     }
 
     public static IEnumerator AttackVibrate(float duration, float frequency, float amplitude, OVRInput.Controller controller = OVRInput.Controller.Active)

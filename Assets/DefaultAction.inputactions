@@ -1,0 +1,52 @@
+{
+    "name": "DefaultAction",
+    "maps": [
+        {
+            "name": "OculusActions",
+            "id": "968eab08-b5a6-4da2-b0ae-68150285bf85",
+            "actions": [
+                {
+                    "name": "FireBeam",
+                    "type": "Button",
+                    "id": "f10370d7-b612-49c0-a4df-19dc1bb1cc9a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RightStick",
+                    "type": "Button",
+                    "id": "66d5c408-6ced-4ad3-a597-8340c05b6317",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bb926d02-fb80-40a9-9229-3bdd028f04b7",
+                    "path": "<XRInputV1::Oculus::OculusTouchControllerRight>/primarybutton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "FireBeam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "29ec38a0-f8b0-4ebc-98e0-8def5bc81682",
+                    "path": "<XRInputV1::Oculus::OculusTouchControllerRight>{RightHand}/thumbsticktouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightStick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
